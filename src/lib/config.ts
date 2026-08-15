@@ -10,4 +10,4 @@
  * and show something friendly. Hiding the button is the only reliable way to
  * stop people hitting that dead end.
  */
-export const GOOGLE_SIGNIN_ENABLED = false;
+export const GOOGLE_SIGNIN_ENABLED = true;
