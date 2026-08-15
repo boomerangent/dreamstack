@@ -4,6 +4,7 @@ import type { Session } from "@supabase/supabase-js";
 import { supabase } from "../lib/supabase";
 import { track } from "../lib/analytics";
 import { PLAN_LIMITS } from "../lib/plans";
+import { GOOGLE_SIGNIN_ENABLED } from "../lib/config";
 import { Logo } from "../App";
 
 export default function Auth({ session }: { session: Session | null }) {
@@ -106,6 +107,7 @@ export default function Auth({ session }: { session: Session | null }) {
             </div>
           )}
 
+          {GOOGLE_SIGNIN_ENABLED && (
           <button
             onClick={signInWithGoogle}
             disabled={googleBusy}
@@ -131,14 +133,17 @@ export default function Auth({ session }: { session: Session | null }) {
             </svg>
             {googleBusy ? "Opening Google…" : "Continue with Google"}
           </button>
+          )}
 
-          <div className="flex items-center gap-3 my-5">
-            <span className="h-px flex-1 bg-white/10" />
-            <span className="text-[11px] text-white/35 uppercase tracking-widest">
-              or with email
-            </span>
-            <span className="h-px flex-1 bg-white/10" />
-          </div>
+          {GOOGLE_SIGNIN_ENABLED && (
+            <div className="flex items-center gap-3 my-5">
+              <span className="h-px flex-1 bg-white/10" />
+              <span className="text-[11px] text-white/35 uppercase tracking-widest">
+                or with email
+              </span>
+              <span className="h-px flex-1 bg-white/10" />
+            </div>
+          )}
 
           <form onSubmit={submit} className="space-y-3">
             <input
