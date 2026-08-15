@@ -1,0 +1,161 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Space Grotesk", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --color-ink: #05060a;
+  --color-panel: #0c0e16;
+  --color-line: rgba(255, 255, 255, 0.08);
+  --color-mist: rgba(255, 255, 255, 0.55);
+  --color-aur-1: #6ee7ff;
+  --color-aur-2: #a78bfa;
+  --color-aur-3: #fb7185;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Nothing should ever scroll sideways on a phone. */
+body {
+  overflow-x: hidden;
+}
+
+/* iOS zooms the whole page in when you tap a field smaller than 16px.
+   Keeping form text at 16px on small screens stops that jarring jump. */
+@media (max-width: 640px) {
+  input,
+  textarea,
+  select {
+    font-size: 16px;
+  }
+}
+
+/* Comfortable tap targets on touch screens. */
+@media (hover: none) and (pointer: coarse) {
+  button,
+  a[class*="rounded"] {
+    touch-action: manipulation;
+  }
+}
+
+body {
+  background-color: var(--color-ink);
+  color: #f2f4fa;
+  font-family: var(--font-display);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Aurora backdrop used on landing + auth */
+.aurora {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.aurora::before,
+.aurora::after {
+  content: "";
+  position: absolute;
+  width: 60vw;
+  height: 60vw;
+  border-radius: 9999px;
+  filter: blur(90px);
+  opacity: 0.22;
+}
+.aurora::before {
+  background: radial-gradient(circle, var(--color-aur-1), transparent 60%);
+  top: -20vw;
+  left: -10vw;
+  animation: drift 18s ease-in-out infinite alternate;
+}
+.aurora::after {
+  background: radial-gradient(circle, var(--color-aur-2), transparent 60%);
+  bottom: -25vw;
+  right: -10vw;
+  animation: drift 22s ease-in-out infinite alternate-reverse;
+}
+@keyframes drift {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(8vw, 6vh, 0) scale(1.15);
+  }
+}
+
+.grad-text {
+  background: linear-gradient(
+    100deg,
+    var(--color-aur-1),
+    var(--color-aur-2) 55%,
+    var(--color-aur-3)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.grad-btn {
+  background: linear-gradient(
+    100deg,
+    var(--color-aur-1),
+    var(--color-aur-2) 55%,
+    var(--color-aur-3)
+  );
+  color: #05060a;
+  font-weight: 600;
+  transition: filter 0.15s ease, transform 0.15s ease;
+}
+.grad-btn:hover {
+  filter: brightness(1.12);
+  transform: translateY(-1px);
+}
+.grad-btn:disabled {
+  filter: grayscale(0.6) brightness(0.7);
+  transform: none;
+  cursor: not-allowed;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--color-line);
+  backdrop-filter: blur(12px);
+}
+
+.dotgrid {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.09) 1px, transparent 1px);
+  background-size: 26px 26px;
+  mask-image: radial-gradient(ellipse at 50% 0%, black 30%, transparent 75%);
+}
+
+.blink {
+  animation: blink 1s steps(2) infinite;
+}
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.05) 25%,
+    rgba(255, 255, 255, 0.14) 50%,
+    rgba(255, 255, 255, 0.05) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+@keyframes shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+::selection {
+  background: rgba(167, 139, 250, 0.4);
+}
