@@ -9,3 +9,4 @@ dist
 
 # Hostinger upload package (rebuilt on every deploy)
 dreamstack-hostinger.zip
+netlify-redirect.zip

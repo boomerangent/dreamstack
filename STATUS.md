@@ -4,7 +4,7 @@ _Last updated: 21 August 2026_
 
 **Live site:** https://getdreamstack.com (on Hostinger since 21 Aug 2026)
 **Gallery:** https://getdreamstack.com/gallery
-**Old address:** https://dreamstack-ai.netlify.app — still works; to be forwarded to the new one.
+**Old address:** https://dreamstack-ai.netlify.app — forwards to the new one (deployed 21 Aug).
 
 Start a new chat with Claude in this folder and say *"read STATUS.md, let's carry
 on with Dreamstack"* — it'll pick up exactly here.
@@ -52,9 +52,9 @@ Studio $49/mo (50) · Booster $9 (10) · Mega $29 (40). 1 build or edit = 1 cred
 
 1. ~~Supabase Redirect URLs~~ — **done 21 Aug** (Site URL = getdreamstack.com,
    redirect list has both the new and the old address).
-2. **Forward the old Netlify address** to getdreamstack.com so old links keep
-   working — deploy the `netlify-redirect/` folder to the Netlify site (needs
-   Netlify access; ask Claude).
+2. ~~Forward the old Netlify address~~ — **done 21 Aug** (every old
+   dreamstack-ai.netlify.app link now 301-forwards to the same page on
+   getdreamstack.com).
 3. **Google Search Console** → add `https://getdreamstack.com` as a property →
    submit `/sitemap.xml`.
 4. **Post something.** One 30-second screen recording of you typing a sentence
