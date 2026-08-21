@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://dreamstack-ai.netlify.app/sitemap.xml
+Sitemap: https://getdreamstack.com/sitemap.xml
