@@ -167,9 +167,14 @@ pointed at the new one.
 
 1. `npm run build` — makes the `dist/` folder.
 2. `npm run zip` — packs it into `dreamstack-hostinger.zip`.
-3. hPanel → Websites → the Dreamstack site → **File Manager** → `public_html`:
-   delete the old files, upload the zip, right-click it → **Extract**, then
-   delete the zip.
+3. hPanel → Websites → **getdreamstack.com** → File manager → **Open**. Go into
+   `public_html`, click the upload icon (top right) and upload the zip.
+4. Right-click the zip → **Extract**. Folder name: `public_html`. Destination:
+   double-click `..` so it says "Currently navigating on: /files/". Tick
+   **Overwrite existing files** → Extract. (This drops the files straight into
+   the site root instead of a sub-folder.)
+5. Delete the zip from `public_html`. Done — changes are live immediately
+   (if you don't see them, hPanel → Cache → Clear cache).
 
 **Move to a new domain** (one command does the find-and-replace):
 
