@@ -1,0 +1,31 @@
+# Dreamstack on Hostinger (LiteSpeed / Apache).
+# The site is a single-page app: every address is answered by index.html and
+# the app decides what to show. Real files (assets, images, sitemap) are
+# served as-is.
+
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Always use https://
+  RewriteCond %{HTTPS} !=on
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  # Files and folders that really exist are served normally
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Everything else is an app route (/gallery, /a/abc123, /account, ...)
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+<IfModule mod_headers.c>
+  # The page shell must never be cached, so each new deploy shows up at once
+  <FilesMatch "^index[.]html$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>

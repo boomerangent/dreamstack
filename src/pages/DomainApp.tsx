@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
+import { SITE_URL } from "../lib/config";
 
 /** Renders when the site is loaded on a customer's custom domain. */
 export default function DomainApp({ host }: { host: string }) {
@@ -58,7 +59,7 @@ export default function DomainApp({ host }: { host: string }) {
       />
       {!hideBadge && (
         <a
-          href="https://dreamstack-ai.netlify.app"
+          href={SITE_URL}
           className="fixed bottom-4 right-4 glass rounded-full px-4 py-2 text-xs text-white/80 hover:text-white flex items-center gap-2 shadow-lg"
         >
           <span className="grad-text font-semibold">✦</span> Built with

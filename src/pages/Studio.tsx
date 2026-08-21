@@ -8,6 +8,7 @@ import { PLAN_LIMITS, planName } from "../lib/plans";
 import { Logo } from "../App";
 import { remixApp } from "./Gallery";
 import { track } from "../lib/analytics";
+import { SITE_HOST } from "../lib/config";
 
 const BUILD_PHASES = [
   [0, "Reading your idea…"],
@@ -333,7 +334,7 @@ export default function Studio({ session }: { session: Session | null }) {
       return;
     }
     alert(
-      `Almost there! Two steps to make ${domain} live:\n\n1) In the domain's DNS settings, add a CNAME record pointing ${domain} to dreamstack-ai.netlify.app\n\n2) The domain must also be attached in the site's Netlify dashboard (Domain management → Add domain alias).\n\nUntil then, the app stays available at its normal share link.`
+      `Almost there! Two steps to make ${domain} live:\n\n1) In the domain's DNS settings, add a CNAME record pointing ${domain} to ${SITE_HOST}\n\n2) Tell us the domain (reply to any email from Dreamstack) and we attach it on our side — usually the same day.\n\nUntil then, the app stays available at its normal share link.`
     );
   }
 

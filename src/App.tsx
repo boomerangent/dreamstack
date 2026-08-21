@@ -11,6 +11,7 @@ import Legal from "./pages/Legal";
 import DomainApp from "./pages/DomainApp";
 import Gallery from "./pages/Gallery";
 import Admin from "./pages/Admin";
+import { isPlatformHost } from "./lib/config";
 
 export function Logo({ size = 22 }: { size?: number }) {
   return (
@@ -137,11 +138,7 @@ export default function App() {
   // Customer custom domains: any host that isn't ours renders that domain's
   // app full-screen instead of the Dreamstack site.
   const host = window.location.hostname;
-  const isPlatformHost =
-    host === "localhost" ||
-    host === "127.0.0.1" ||
-    host.endsWith(".netlify.app");
-  if (!isPlatformHost) return <DomainApp host={host} />;
+  if (!isPlatformHost(host)) return <DomainApp host={host} />;
 
   if (!ready) {
     return (
