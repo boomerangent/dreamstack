@@ -50,9 +50,8 @@ Studio $49/mo (50) · Booster $9 (10) · Mega $29 (40). 1 build or edit = 1 cred
 
 ## 🎯 Next actions (in priority order)
 
-1. **Supabase → Authentication → URL Configuration → Redirect URLs → add
-   `https://getdreamstack.com/**`.** Without it, Google sign-in on the new
-   address bounces people to your other app.
+1. ~~Supabase Redirect URLs~~ — **done 21 Aug** (Site URL = getdreamstack.com,
+   redirect list has both the new and the old address).
 2. **Forward the old Netlify address** to getdreamstack.com so old links keep
    working — deploy the `netlify-redirect/` folder to the Netlify site (needs
    Netlify access; ask Claude).
