@@ -21,10 +21,10 @@ export const PLANS: Plan[] = [
     name: "Dreamer",
     price: "$0",
     priceNote: "forever",
-    gensPerMonth: 2,
+    gensPerMonth: 3,
     blurb: "Try the magic. Build your first apps.",
     features: [
-      "2 welcome credits — on us, one time",
+      "3 welcome credits — build it, then tweak it twice",
       "Unlimited viewing & sharing",
       "Public share links",
       "Top up with credit packs any time",
@@ -67,7 +67,7 @@ export const PLANS: Plan[] = [
 ];
 
 export const PLAN_LIMITS: Record<string, number> = {
-  free: 2,
+  free: 3,
   pro: 20,
   studio: 50,
 };

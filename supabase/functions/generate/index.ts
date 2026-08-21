@@ -11,7 +11,7 @@ const CORS: Record<string, string> = {
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
 
-const PLAN_LIMITS: Record<string, number> = { free: 2, pro: 20, studio: 50 };
+const PLAN_LIMITS: Record<string, number> = { free: 3, pro: 20, studio: 50 };
 
 const SYSTEM_PROMPT = `You are the Dreamstack app engine. You turn a person's idea into a complete, working, single-file web app.
 

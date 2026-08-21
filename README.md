@@ -45,7 +45,7 @@ the customer 1 credit. Sanity-check against your prices:
 
 | Offer | Price | Credits | Your worst-case AI cost | Worst-case margin |
 | --- | --- | --- | --- | --- |
-| Dreamer (free) | $0 | 2 welcome credits, one-time | ~$0.80 max, ever | — |
+| Dreamer (free) | $0 | 3 welcome credits, one-time | ~$1.20 max, ever | — |
 | Builder | $19 / mo | 20 / month | ~$8 | **+$11** |
 | Studio | $49 / mo | 50 / month | ~$20 | **+$29** |
 | Booster pack | $9 once | 10 (never expire) | ~$4 | **+$5** |
@@ -82,8 +82,8 @@ Two easy levers if margins feel thin:
    ID** (starts with `price_`):
    - "Dreamstack Builder" — **recurring monthly** at $19/mo
    - "Dreamstack Studio" — **recurring monthly** at $49/mo
-   - "Dreamstack Booster pack (25 credits)" — **one-time** at $9
-   - "Dreamstack Mega pack (100 credits)" — **one-time** at $29
+   - "Dreamstack Booster pack (10 credits)" — **one-time** at $9
+   - "Dreamstack Mega pack (40 credits)" — **one-time** at $29
 3. In Stripe → Developers → Webhooks, add an endpoint:
    - URL: `https://nwxgaceptjuapqiwvtfp.supabase.co/functions/v1/stripe-webhook`
    - Events: `checkout.session.completed`, `customer.subscription.updated`,
@@ -154,9 +154,37 @@ npm run build      # production build into dist/
   security).
 - Server function code lives in `supabase/functions/*` — ask Claude to edit
   and redeploy them any time.
-- To redeploy the website after changes: ask Claude to "deploy Dreamstack to
-  Netlify" (or connect this folder to a GitHub repo in the Netlify UI for
-  automatic deploys).
+- To redeploy the website after changes: see **Hosting on Hostinger** below.
+
+## Hosting on Hostinger (moved 21 Aug 2026)
+
+The website files live on Hostinger **Business Web Hosting** (invoice H_49254764).
+The AI engine, accounts, database and payments stay on Supabase / Stripe —
+nothing changed there. The old Netlify address keeps working until it is
+pointed at the new one.
+
+**Deploy a new version** — or just ask Claude to "deploy Dreamstack to Hostinger":
+
+1. `npm run build` — makes the `dist/` folder.
+2. `npm run zip` — packs it into `dreamstack-hostinger.zip`.
+3. hPanel → Websites → the Dreamstack site → **File Manager** → `public_html`:
+   delete the old files, upload the zip, right-click it → **Extract**, then
+   delete the zip.
+
+**Move to a new domain** (one command does the find-and-replace):
+
+1. `npm run site-url https://your-domain.com` — updates `index.html`,
+   `robots.txt`, `sitemap.xml` and `.env` together.
+2. `npm run build`, then deploy as above.
+3. Supabase → Authentication → URL Configuration → add
+   `https://your-domain.com/**` to **Redirect URLs**.
+4. Google Search Console → add the new address as a property → submit
+   `/sitemap.xml`.
+5. Netlify → set `dreamstack-ai.netlify.app` to redirect to the new address so
+   old links keep working (ask Claude).
+
+`public/.htaccess` holds the server rules Hostinger needs (page links like
+`/gallery` are answered by the app, https is forced). Keep it.
 
 ## Things to know
 
