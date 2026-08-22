@@ -4,8 +4,8 @@ Everything you need to post, in your voice, ready to copy. Nothing here is
 automated or spammed — you press publish, which is what keeps accounts alive
 and the brand credible.
 
-**Your link:** https://dreamstack-ai.netlify.app
-**Your gallery (great for sharing):** https://dreamstack-ai.netlify.app/gallery
+**Your link:** https://getdreamstack.com
+**Your gallery (great for sharing):** https://getdreamstack.com/gallery
 
 ---
 
@@ -16,11 +16,59 @@ and the brand credible.
 | 4 words | Describe it. We build it. |
 | Tagline | Turn one sentence into a working app. |
 | One line | Dreamstack is an AI app builder — describe an app in plain English, watch it get built in front of you, then share it with a link. |
-| Bio line | I built an AI that turns a sentence into a working app → dreamstack-ai.netlify.app |
+| Bio line | I built an AI that turns a sentence into a working app → getdreamstack.com |
 
 ---
 
 ## 1. TikTok / Reels / Shorts
+
+### ⭐ FIRST VIDEO — copy/paste, ready to record
+
+Do this one first. It's Script A, tightened, with everything filled in.
+
+**The app to build (type this exactly):**
+> a tip calculator that splits the bill between friends
+
+_(Backups if you'd rather: "a workout timer with rounds and rest" · "a daily water tracker with a progress ring".)_
+
+**Shot sheet (aim for ~22 seconds, vertical):**
+
+| Time | What's on screen | Text overlay (big, top third) |
+| --- | --- | --- |
+| 0:00–0:02 | Empty prompt box, cursor blinking | **I can't code. Watch this.** |
+| 0:02–0:06 | Type the sentence slowly enough to read | _(no overlay — let them read it)_ |
+| 0:06–0:07 | Hit build | one sentence → |
+| 0:07–0:13 | Code console scrolling live | it's writing the whole app |
+| 0:13–0:16 | Finished app pops up | …and it's done |
+| 0:16–0:20 | Tap in: enter a bill, split by 3 | it actually works |
+| 0:20–0:23 | Show/tap the share link | already live · shareable link |
+| 0:23–0:25 | Landing page / logo | getdreamstack.com — free to try |
+
+**Caption (copy/paste):**
+> made this by typing ONE sentence into my AI app builder — no code, no setup 😳 what should I build next? drop it below 👇
+>
+> getdreamstack.com
+> #ai #nocode #buildinpublic #aitools #startup #appbuilder #indiehacker
+
+**Pick a hook for the first 1.5s (this decides everything):**
+1. `I can't code. Watch this.` — relatable, safest
+2. `no code. no developer. 60 seconds.` — speed flex
+3. `POV: you have an app idea but can't build it` — POV format travels
+
+**Recording tips**
+- Film vertical (9:16). Screen-record your phone or laptop.
+- Under 25 seconds. START on the typing — no "hey guys", no logo intro.
+- Pause ~1 second after you finish typing the sentence so people can read it.
+- Add the overlays in TikTok's editor or CapCut. Big text, top third (TikTok's own buttons cover the bottom-right).
+- Use a calm/curious trending sound at low volume, or just talk over it.
+
+**When you post**
+- Best windows: roughly 12–3pm or 7–10pm your time.
+- **Pin a comment** with the link: `Try it free 👉 getdreamstack.com`.
+- Put `getdreamstack.com` in your TikTok bio too (caption links aren't always clickable).
+- Reply to every comment in the first hour — that's what feeds the algorithm. Bonus: every "build X" comment is your next video (that's Script B below).
+
+---
 
 **The format that works:** screen recording of you typing a prompt, the build
 console scrolling, then the finished app. Under 30 seconds. No intro, no
@@ -78,7 +126,7 @@ reconstitution calculator, and a fitness program site. That's the video:
 >
 > No code. No setup. Free to try.
 >
-> dreamstack-ai.netlify.app
+> getdreamstack.com
 > [attach a 20-second screen recording]
 
 **Thread (post the launch post, then reply with these):**
@@ -93,7 +141,7 @@ reconstitution calculator, and a fitness program site. That's the video:
 > "add a leaderboard". It rebuilds around your edit.
 
 > 5/ There's a gallery of what people are making, and you can Remix any of
-> them into your own copy: dreamstack-ai.netlify.app/gallery
+> them into your own copy: getdreamstack.com/gallery
 
 > 6/ Built it because I wanted small ideas to stop dying in the "I'd need a
 > developer for that" gap. Free to start — tell me what you build.
