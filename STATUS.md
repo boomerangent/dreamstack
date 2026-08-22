@@ -37,32 +37,23 @@ Studio $49/mo (50) · Booster $9 (10) · Mega $29 (40). 1 build or edit = 1 cred
 
 ---
 
-## 🔧 Known problems (found 21 Aug)
-
-1. **Visitor stats never worked** — one-line bug in `src/lib/analytics.ts`
-   (the tracking call is never actually sent). Dashboard shows zeros. Ask
-   Claude to "fix the stats bug" — 2 minutes plus a redeploy.
-2. **AdSense section on the Account page is half-built** — it saves the
-   publisher ID but nothing ever shows ads. Finish it or hide it before
-   marketing.
-
----
 
 ## 🎯 Next actions (in priority order)
 
-1. ~~Supabase Redirect URLs~~ — **done 21 Aug** (Site URL = getdreamstack.com,
-   redirect list has both the new and the old address).
-2. ~~Forward the old Netlify address~~ — **done 21 Aug** (every old
-   dreamstack-ai.netlify.app link now 301-forwards to the same page on
-   getdreamstack.com).
-3. **Google Search Console** → add `https://getdreamstack.com` as a property →
-   submit `/sitemap.xml`.
-4. **Post something.** One 30-second screen recording of you typing a sentence
-   and an app appearing. Scripts are in `LAUNCH-KIT.md`.
-5. Optional: `startup-credits.xlsx` lists free-credit programs worth applying to
-   (Microsoft for Startups, Supabase Startup Program).
+Everything technical is done. What's left is **distribution** — getting real
+people to the site.
 
----
+1. **Post your launch demo to TikTok.** You have a TikTok account. Record one
+   30-second clip: type a sentence, watch an app appear, share the link.
+   Ready-made scripts are in `LAUNCH-KIT.md`. This is the whole ballgame now.
+2. **Do a $9 self-purchase** once, to prove the live payment flow end to end.
+3. Optional: apply for free startup credits (`startup-credits.xlsx`) —
+   Microsoft for Startups (~$5k) and Supabase Startup Program (~$3k).
+
+_Done 21 Aug: moved to getdreamstack.com (Hostinger), Supabase sign-in URLs,
+old Netlify address forwards over, visitor-stats bug fixed, unfinished AdSense
+section hidden, Google Search Console verified + sitemap submitted (5 pages
+found)._
 
 ## 🔑 Things worth remembering
 
