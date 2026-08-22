@@ -57,6 +57,14 @@ const FAQS = [
   },
 ];
 
+const EXAMPLES = [
+  "a tip calculator that splits the bill",
+  "a daily water tracker with a progress ring",
+  "a workout timer with rounds and rest",
+  "a quiz game about space",
+  "an invoice maker for my side hustle",
+];
+
 export default function Landing({ session }: { session: Session | null }) {
   const nav = useNavigate();
   const [idea, setIdea] = useState("");
@@ -147,6 +155,18 @@ export default function Landing({ session }: { session: Session | null }) {
             >
               ✦ Build my app
             </button>
+          </div>
+          <div className="mt-4 flex flex-wrap gap-2 justify-center">
+            <span className="text-xs text-white/30 self-center mr-1">Try:</span>
+            {EXAMPLES.map((ex) => (
+              <button
+                key={ex}
+                onClick={() => setIdea(ex)}
+                className="text-xs rounded-full border border-line px-3 py-1.5 text-white/60 hover:text-white hover:border-white/30 transition-colors"
+              >
+                {ex}
+              </button>
+            ))}
           </div>
           <p className="mt-3 text-xs text-white/35">
             Free to try — {PLAN_LIMITS.free} welcome builds, no card needed.
