@@ -35,10 +35,12 @@ export function Logo({ size = 22 }: { size?: number }) {
 }
 
 export function Nav({ session }: { session: Session | null }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const close = () => setMenuOpen(false);
   return (
     <header className="fixed top-0 inset-x-0 z-40">
       <nav className="mx-auto max-w-6xl px-4 sm:px-6 py-3 mt-3 rounded-2xl glass flex items-center justify-between">
-        <Link to="/" className="text-[17px]">
+        <Link to="/" className="text-[17px]" onClick={close}>
           <Logo />
         </Link>
         <div className="hidden sm:flex items-center gap-6 text-sm text-white/70">
@@ -52,12 +54,12 @@ export function Nav({ session }: { session: Session | null }) {
             Pricing
           </a>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           {session ? (
             <>
               <Link
                 to="/account"
-                className="text-sm text-white/70 hover:text-white transition-colors"
+                className="hidden sm:inline text-sm text-white/70 hover:text-white transition-colors"
               >
                 Account
               </Link>
@@ -72,7 +74,7 @@ export function Nav({ session }: { session: Session | null }) {
             <>
               <Link
                 to="/auth"
-                className="text-sm text-white/70 hover:text-white transition-colors"
+                className="hidden sm:inline text-sm text-white/70 hover:text-white transition-colors"
               >
                 Sign in
               </Link>
@@ -84,8 +86,80 @@ export function Nav({ session }: { session: Session | null }) {
               </Link>
             </>
           )}
+          {/* Mobile menu button */}
+          <button
+            type="button"
+            aria-label="Menu"
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen((o) => !o)}
+            className="sm:hidden text-white/80 hover:text-white p-1"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden>
+              {menuOpen ? (
+                <path
+                  d="M6 6l12 12M18 6L6 18"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                />
+              ) : (
+                <path
+                  d="M4 7h16M4 12h16M4 17h16"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                />
+              )}
+            </svg>
+          </button>
         </div>
       </nav>
+
+      {/* Mobile dropdown menu */}
+      {menuOpen && (
+        <div className="sm:hidden mx-auto max-w-6xl px-4 mt-2">
+          <div className="glass rounded-2xl p-2 flex flex-col text-sm text-white/85">
+            <a
+              href="/#how"
+              onClick={close}
+              className="px-4 py-3 rounded-xl hover:bg-white/5"
+            >
+              How it works
+            </a>
+            <Link
+              to="/gallery"
+              onClick={close}
+              className="px-4 py-3 rounded-xl hover:bg-white/5"
+            >
+              Gallery
+            </Link>
+            <a
+              href="/#pricing"
+              onClick={close}
+              className="px-4 py-3 rounded-xl hover:bg-white/5"
+            >
+              Pricing
+            </a>
+            {session ? (
+              <Link
+                to="/account"
+                onClick={close}
+                className="px-4 py-3 rounded-xl hover:bg-white/5"
+              >
+                Account
+              </Link>
+            ) : (
+              <Link
+                to="/auth"
+                onClick={close}
+                className="px-4 py-3 rounded-xl hover:bg-white/5"
+              >
+                Sign in
+              </Link>
+            )}
+          </div>
+        </div>
+      )}
     </header>
   );
 }

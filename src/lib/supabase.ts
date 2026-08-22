@@ -49,3 +49,13 @@ export interface DsProfile {
   adsense_id: string | null;
   period_start: string;
 }
+
+export interface DsReview {
+  id: string;
+  author_name: string;
+  role_line: string | null;
+  rating: number;
+  body: string;
+  is_approved: boolean;
+  created_at: string;
+}

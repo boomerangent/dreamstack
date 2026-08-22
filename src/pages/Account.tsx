@@ -15,6 +15,11 @@ export default function Account({ session }: { session: Session | null }) {
   const [msg, setMsg] = useState<string | null>(null);
   const [busy, setBusy] = useState<string | null>(null);
   const [stats, setStats] = useState<SiteStats | null>(null);
+  const [rating, setRating] = useState(5);
+  const [rvName, setRvName] = useState("");
+  const [rvRole, setRvRole] = useState("");
+  const [rvBody, setRvBody] = useState("");
+  const [rvMsg, setRvMsg] = useState<string | null>(null);
 
   useEffect(() => {
     if (!session) {
@@ -62,6 +67,29 @@ export default function Account({ session }: { session: Session | null }) {
     } finally {
       setBusy(null);
     }
+  }
+
+  async function submitReview() {
+    if (rvBody.trim().length < 4) {
+      setRvMsg("Please write a few words about your experience.");
+      return;
+    }
+    setBusy("review");
+    setRvMsg(null);
+    const { error } = await supabase.rpc("ds_submit_review", {
+      p_name: rvName,
+      p_role: rvRole,
+      p_rating: rating,
+      p_body: rvBody,
+    });
+    setBusy(null);
+    if (error) {
+      setRvMsg(error.message);
+      return;
+    }
+    setRvBody("");
+    setRvRole("");
+    setRvMsg("Thank you! Your review will show on the site once it's approved.");
   }
 
   async function portal() {
@@ -232,6 +260,60 @@ export default function Account({ session }: { session: Session | null }) {
               )}
             </div>
           ))}
+        </div>
+
+        <div className="glass rounded-2xl p-6 mb-5">
+          <h2 className="font-semibold mb-1">
+            Leave a <span className="grad-text">review</span>
+          </h2>
+          <p className="text-xs text-white/50 mb-4">
+            Enjoying Dreamstack? Share a few words. Approved reviews appear on the
+            homepage and help other people give it a try.
+          </p>
+          <div className="flex items-center gap-1 mb-3">
+            {[1, 2, 3, 4, 5].map((n) => (
+              <button
+                key={n}
+                type="button"
+                onClick={() => setRating(n)}
+                aria-label={`${n} star${n === 1 ? "" : "s"}`}
+                className={`text-2xl leading-none transition-colors ${
+                  n <= rating ? "grad-text" : "text-white/20 hover:text-white/40"
+                }`}
+              >
+                ★
+              </button>
+            ))}
+          </div>
+          <div className="grid sm:grid-cols-2 gap-2 mb-2">
+            <input
+              value={rvName}
+              onChange={(e) => setRvName(e.target.value)}
+              placeholder="Your name"
+              className="rounded-xl bg-black/30 border border-line px-4 py-3 text-sm outline-none focus:border-white/30"
+            />
+            <input
+              value={rvRole}
+              onChange={(e) => setRvRole(e.target.value)}
+              placeholder="What you do (optional)"
+              className="rounded-xl bg-black/30 border border-line px-4 py-3 text-sm outline-none focus:border-white/30"
+            />
+          </div>
+          <textarea
+            value={rvBody}
+            onChange={(e) => setRvBody(e.target.value)}
+            rows={3}
+            placeholder="What did you build, and how was it?"
+            className="w-full rounded-xl bg-black/30 border border-line px-4 py-3 text-sm outline-none focus:border-white/30 resize-none mb-2"
+          />
+          <button
+            onClick={submitReview}
+            disabled={busy === "review"}
+            className="grad-btn rounded-xl px-5 py-3 text-sm"
+          >
+            {busy === "review" ? "Sending…" : "Submit review"}
+          </button>
+          {rvMsg && <p className="mt-3 text-sm text-white/70">{rvMsg}</p>}
         </div>
 
         <h2 className="text-lg font-semibold tracking-tight mb-3 mt-8">

@@ -31,7 +31,17 @@ interface AdminApp {
   owner_email: string | null;
 }
 
-type Tab = "overview" | "people" | "apps";
+interface AdminReview {
+  id: string;
+  author_name: string;
+  role_line: string | null;
+  rating: number;
+  body: string;
+  is_approved: boolean;
+  created_at: string;
+}
+
+type Tab = "overview" | "people" | "apps" | "reviews";
 
 export default function Admin({ session }: { session: Session | null }) {
   const nav = useNavigate();
@@ -40,6 +50,7 @@ export default function Admin({ session }: { session: Session | null }) {
   const [stats, setStats] = useState<SiteStats | null>(null);
   const [users, setUsers] = useState<AdminUser[]>([]);
   const [apps, setApps] = useState<AdminApp[]>([]);
+  const [reviews, setReviews] = useState<AdminReview[]>([]);
   const [busy, setBusy] = useState<string | null>(null);
   const [toast, setToast] = useState<string | null>(null);
 
@@ -57,9 +68,10 @@ export default function Admin({ session }: { session: Session | null }) {
   }
 
   async function loadAll() {
-    const [u, a, s] = await Promise.all([
+    const [u, a, r, s] = await Promise.all([
       supabase.rpc("ds_admin_users"),
       supabase.rpc("ds_admin_apps"),
+      supabase.rpc("ds_admin_reviews"),
       fetchSiteStats(),
     ]);
     const ud = u.data as { allowed: boolean; users?: AdminUser[] } | null;
@@ -71,6 +83,8 @@ export default function Admin({ session }: { session: Session | null }) {
     setUsers(ud.users ?? []);
     const ad = a.data as { allowed: boolean; apps?: AdminApp[] } | null;
     setApps(ad?.apps ?? []);
+    const rd = r.data as { allowed: boolean; reviews?: AdminReview[] } | null;
+    setReviews(rd?.reviews ?? []);
     if (s?.allowed) setStats(s);
   }
 
@@ -118,6 +132,27 @@ export default function Admin({ session }: { session: Session | null }) {
     say("Updated");
   }
 
+  async function setReviewApproved(rv: AdminReview, approved: boolean) {
+    setBusy(rv.id);
+    await supabase.rpc("ds_admin_set_review", {
+      p_id: rv.id,
+      p_approved: approved,
+    });
+    setReviews((prev) =>
+      prev.map((x) => (x.id === rv.id ? { ...x, is_approved: approved } : x))
+    );
+    setBusy(null);
+    say(approved ? "Review approved — now live" : "Review hidden");
+  }
+
+  async function deleteReview(rv: AdminReview) {
+    setBusy(rv.id);
+    await supabase.rpc("ds_admin_delete_review", { p_id: rv.id });
+    setReviews((prev) => prev.filter((x) => x.id !== rv.id));
+    setBusy(null);
+    say("Review deleted");
+  }
+
   if (!session) return null;
 
   if (allowed === false) {
@@ -153,7 +188,7 @@ export default function Admin({ session }: { session: Session | null }) {
             Admin <span className="grad-text">panel</span>
           </h1>
           <div className="flex gap-1 glass rounded-xl p-1 text-sm">
-            {(["overview", "people", "apps"] as Tab[]).map((t) => (
+            {(["overview", "people", "apps", "reviews"] as Tab[]).map((t) => (
               <button
                 key={t}
                 onClick={() => setTab(t)}
@@ -164,6 +199,9 @@ export default function Admin({ session }: { session: Session | null }) {
                 {t}
                 {t === "people" && users.length > 0 ? ` (${users.length})` : ""}
                 {t === "apps" && apps.length > 0 ? ` (${apps.length})` : ""}
+                {t === "reviews" && reviews.some((r) => !r.is_approved)
+                  ? ` (${reviews.filter((r) => !r.is_approved).length})`
+                  : ""}
               </button>
             ))}
           </div>
@@ -293,7 +331,7 @@ export default function Admin({ session }: { session: Session | null }) {
               </table>
             </div>
           </div>
-        ) : (
+        ) : tab === "apps" ? (
           <div className="glass rounded-2xl overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-sm min-w-[44rem]">
@@ -348,6 +386,64 @@ export default function Admin({ session }: { session: Session | null }) {
                 </tbody>
               </table>
             </div>
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {reviews.length === 0 ? (
+              <div className="glass rounded-2xl p-8 text-center text-sm text-white/50">
+                No reviews yet. When someone submits one from their Account page,
+                it shows up here for you to approve before it goes live on the
+                homepage.
+              </div>
+            ) : (
+              reviews.map((r) => (
+                <div key={r.id} className="glass rounded-2xl p-5">
+                  <div className="flex flex-wrap items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <div className="text-sm mb-1">
+                        <span className="grad-text">{"★".repeat(r.rating)}</span>
+                        <span className="text-white/15">
+                          {"★".repeat(5 - r.rating)}
+                        </span>
+                        {r.is_approved ? (
+                          <span className="ml-3 text-[10px] uppercase tracking-wider text-emerald-300/80">
+                            Live
+                          </span>
+                        ) : (
+                          <span className="ml-3 text-[10px] uppercase tracking-wider text-amber-300/80">
+                            Pending
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-sm text-white/80 leading-relaxed">
+                        “{r.body}”
+                      </p>
+                      <div className="text-xs text-white/45 mt-2">
+                        {r.author_name}
+                        {r.role_line ? ` · ${r.role_line}` : ""} ·{" "}
+                        {new Date(r.created_at).toLocaleDateString()}
+                      </div>
+                    </div>
+                    <div className="flex gap-2 shrink-0">
+                      <button
+                        onClick={() => setReviewApproved(r, !r.is_approved)}
+                        disabled={busy === r.id}
+                        className="rounded-lg border border-line px-3 py-1.5 text-xs text-white/80 hover:bg-white/5"
+                      >
+                        {r.is_approved ? "Hide" : "Approve"}
+                      </button>
+                      <button
+                        onClick={() => deleteReview(r)}
+                        disabled={busy === r.id}
+                        className="rounded-lg border border-line px-3 py-1.5 text-xs text-rose-300/80 hover:bg-white/5"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         )}
       </main>

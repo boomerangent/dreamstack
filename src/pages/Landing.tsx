@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { track } from "../lib/analytics";
+import { supabase } from "../lib/supabase";
+import type { DsApp, DsReview } from "../lib/supabase";
 import type { Session } from "@supabase/supabase-js";
 import { Footer, Nav } from "../App";
 import { DEMO_APPS } from "../lib/demoApps";
@@ -49,8 +51,27 @@ export default function Landing({ session }: { session: Session | null }) {
   const [idea, setIdea] = useState("");
   const [busyPlan, setBusyPlan] = useState<string | null>(null);
   const [payMsg, setPayMsg] = useState<string | null>(null);
+  const [realApps, setRealApps] = useState<DsApp[] | null>(null);
+  const [reviews, setReviews] = useState<DsReview[]>([]);
 
-  useEffect(() => track("view_home"), []);
+  useEffect(() => {
+    track("view_home");
+    supabase
+      .from("ds_apps")
+      .select("*")
+      .eq("is_public", true)
+      .eq("in_gallery", true)
+      .order("created_at", { ascending: false })
+      .limit(3)
+      .then(({ data }) => setRealApps((data as DsApp[]) ?? []));
+    supabase
+      .from("ds_reviews")
+      .select("*")
+      .eq("is_approved", true)
+      .order("created_at", { ascending: false })
+      .limit(6)
+      .then(({ data }) => setReviews((data as DsReview[]) ?? []));
+  }, []);
 
   function build() {
     if (idea.trim()) localStorage.setItem("ds_pending_prompt", idea.trim());
@@ -154,25 +175,104 @@ export default function Landing({ session }: { session: Session | null }) {
             </Link>
           </p>
           <div className="grid md:grid-cols-3 gap-5">
-            {DEMO_APPS.map((d) => (
-              <div key={d.title} className="glass rounded-2xl overflow-hidden">
-                <iframe
-                  title={d.title}
-                  srcDoc={d.html}
-                  sandbox="allow-scripts allow-forms allow-modals"
-                  className="w-full h-72 bg-black/40"
-                />
-                <div className="p-4 border-t border-line">
-                  <div className="font-medium text-sm mb-1">{d.title}</div>
-                  <p className="text-xs text-white/45 font-mono leading-relaxed">
-                    “{d.prompt}”
-                  </p>
-                </div>
-              </div>
-            ))}
+            {realApps && realApps.length >= 3
+              ? realApps.slice(0, 3).map((a) => (
+                  <Link
+                    key={a.id}
+                    to={`/a/${a.slug}`}
+                    className="glass rounded-2xl overflow-hidden block group"
+                  >
+                    <div className="h-72 overflow-hidden bg-black/40 relative">
+                      <iframe
+                        title={a.title}
+                        srcDoc={a.html}
+                        sandbox="allow-scripts"
+                        loading="lazy"
+                        className="w-[200%] h-[200%] origin-top-left scale-50 pointer-events-none border-0"
+                      />
+                      <span className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity text-sm font-medium">
+                        Open full screen →
+                      </span>
+                    </div>
+                    <div className="p-4 border-t border-line">
+                      <div className="font-medium text-sm mb-1 truncate">
+                        {a.title}
+                      </div>
+                      {a.prompt && (
+                        <p className="text-xs text-white/45 font-mono leading-relaxed line-clamp-2">
+                          “{a.prompt}”
+                        </p>
+                      )}
+                    </div>
+                  </Link>
+                ))
+              : DEMO_APPS.map((d) => (
+                  <div key={d.title} className="glass rounded-2xl overflow-hidden">
+                    <iframe
+                      title={d.title}
+                      srcDoc={d.html}
+                      sandbox="allow-scripts allow-forms allow-modals"
+                      className="w-full h-72 bg-black/40"
+                    />
+                    <div className="p-4 border-t border-line">
+                      <div className="font-medium text-sm mb-1">{d.title}</div>
+                      <p className="text-xs text-white/45 font-mono leading-relaxed">
+                        “{d.prompt}”
+                      </p>
+                    </div>
+                  </div>
+                ))}
           </div>
         </div>
       </section>
+
+      {/* Reviews */}
+      {reviews.length > 0 && (
+        <section id="reviews" className="px-6 py-20">
+          <div className="mx-auto max-w-6xl">
+            <h2 className="text-3xl font-bold tracking-tight mb-3 text-center">
+              Loved by the people{" "}
+              <span className="grad-text">building on it</span>
+            </h2>
+            <p className="text-center text-white/50 mb-12 text-sm">
+              Real words from real Dreamstack users.
+            </p>
+            <div className="grid md:grid-cols-3 gap-5">
+              {reviews.map((r) => (
+                <div key={r.id} className="glass rounded-2xl p-6 flex flex-col">
+                  <div
+                    className="text-sm mb-3 tracking-wide"
+                    aria-label={`${r.rating} out of 5`}
+                  >
+                    <span className="grad-text">{"★".repeat(r.rating)}</span>
+                    <span className="text-white/15">
+                      {"★".repeat(5 - r.rating)}
+                    </span>
+                  </div>
+                  <p className="text-sm text-white/75 leading-relaxed flex-1">
+                    “{r.body}”
+                  </p>
+                  <div className="mt-4 pt-4 border-t border-line">
+                    <div className="text-sm font-medium">{r.author_name}</div>
+                    {r.role_line && (
+                      <div className="text-xs text-white/40">{r.role_line}</div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <p className="text-center text-xs text-white/35 mt-8">
+              Built something with Dreamstack?{" "}
+              <Link
+                to={session ? "/account" : "/auth?mode=signup"}
+                className="grad-text font-medium"
+              >
+                Share your experience →
+              </Link>
+            </p>
+          </div>
+        </section>
+      )}
 
       {/* Pricing */}
       <section id="pricing" className="px-6 py-20">
