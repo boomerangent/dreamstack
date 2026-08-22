@@ -15,8 +15,6 @@ export default function Account({ session }: { session: Session | null }) {
   const [msg, setMsg] = useState<string | null>(null);
   const [busy, setBusy] = useState<string | null>(null);
   const [stats, setStats] = useState<SiteStats | null>(null);
-  const [adsense, setAdsense] = useState("");
-  const [adsenseMsg, setAdsenseMsg] = useState<string | null>(null);
 
   useEffect(() => {
     if (!session) {
@@ -31,7 +29,6 @@ export default function Account({ session }: { session: Session | null }) {
       .then(({ data }) => {
         if (!data) return;
         setProfile(data as DsProfile);
-        setAdsense((data as DsProfile).adsense_id ?? "");
       });
     fetchSiteStats().then((s) => s?.allowed && setStats(s));
   }, [session]);
@@ -65,20 +62,6 @@ export default function Account({ session }: { session: Session | null }) {
     } finally {
       setBusy(null);
     }
-  }
-
-  async function saveAdsense() {
-    setBusy("adsense");
-    setAdsenseMsg(null);
-    const { error } = await supabase.rpc("ds_set_adsense", { p_id: adsense });
-    setBusy(null);
-    setAdsenseMsg(
-      error
-        ? error.message
-        : adsense
-          ? "Connected ✓ — your ads will run on apps you publish."
-          : "Disconnected — no ads will run on your apps."
-    );
   }
 
   async function portal() {
@@ -249,45 +232,6 @@ export default function Account({ session }: { session: Session | null }) {
               )}
             </div>
           ))}
-        </div>
-
-        <div className="glass rounded-2xl p-6 mb-5">
-          <h2 className="font-semibold mb-1">
-            Earn from your apps with{" "}
-            <span className="grad-text">Google AdSense</span>
-          </h2>
-          <p className="text-xs text-white/50 mb-4">
-            Connect your own AdSense account and the ads on your published apps
-            pay <strong className="text-white/80">you</strong>. You'll need an
-            approved AdSense account — get your publisher ID from{" "}
-            <a
-              href="https://adsense.google.com"
-              target="_blank"
-              rel="noreferrer"
-              className="grad-text"
-            >
-              adsense.google.com
-            </a>
-            .
-          </p>
-          <div className="flex flex-col sm:flex-row gap-2">
-            <input
-              value={adsense}
-              onChange={(e) => setAdsense(e.target.value.trim())}
-              placeholder="ca-pub-0000000000000000"
-              className="flex-1 rounded-xl bg-black/30 border border-line px-4 py-3 text-sm outline-none focus:border-white/30 font-mono"
-            />
-            <button
-              onClick={saveAdsense}
-              disabled={busy === "adsense"}
-              className="grad-btn rounded-xl px-5 py-3 text-sm shrink-0"
-            >
-              {busy === "adsense" ? "Saving…" : "Save"}
-            </button>
-          </div>
-          {adsenseMsg && (
-            <p className="mt-3 text-sm text-white/70">{adsenseMsg}</p>
-          )}
         </div>
 
         <h2 className="text-lg font-semibold tracking-tight mb-3 mt-8">

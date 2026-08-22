@@ -30,12 +30,22 @@ export function track(kind: EventKind, appId?: string) {
       }
     }
 
-    void supabase.rpc("ds_track", {
-      p_kind: kind,
-      p_app_id: appId ?? null,
-      p_referrer: ref || null,
-      p_path: window.location.pathname,
-    });
+    // NOTE: supabase-js query builders only send their request once `.then`
+    // is called (they are lazy "thenables"). A bare `void supabase.rpc(...)`
+    // builds the request but never fires it — which is why nothing was ever
+    // recorded. Calling `.then` here actually sends it; we swallow both
+    // outcomes so analytics can never surface an error to the visitor.
+    supabase
+      .rpc("ds_track", {
+        p_kind: kind,
+        p_app_id: appId ?? null,
+        p_referrer: ref || null,
+        p_path: window.location.pathname,
+      })
+      .then(
+        () => {},
+        () => {},
+      );
   } catch {
     /* analytics must never break the page */
   }
