@@ -24,8 +24,8 @@ on with Dreamstack"* — it'll pick up exactly here.
 | Admin panel (`/admin`) — people, credits, plans, app flags | Live, owner-only |
 | Launch content | `LAUNCH-KIT.md` + `facebook-posts.csv` |
 
-**Pricing:** Dreamer free (3 one-time welcome credits) · Builder $19/mo (20) ·
-Studio $49/mo (50) · Booster $9 (10) · Mega $29 (40). 1 build or edit = 1 credit.
+**Pricing:** Dreamer free (3 one-time welcome credits) · Builder $19/mo (12) ·
+Studio $49/mo (25) · Booster $9 (10) · Mega $29 (40). 1 build or edit = 1 credit.
 
 ---
 

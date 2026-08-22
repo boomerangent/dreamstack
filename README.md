@@ -46,8 +46,8 @@ the customer 1 credit. Sanity-check against your prices:
 | Offer | Price | Credits | Your worst-case AI cost | Worst-case margin |
 | --- | --- | --- | --- | --- |
 | Dreamer (free) | $0 | 3 welcome credits, one-time | ~$1.20 max, ever | — |
-| Builder | $19 / mo | 20 / month | ~$8 | **+$11** |
-| Studio | $49 / mo | 50 / month | ~$20 | **+$29** |
+| Builder | $19 / mo | 12 / month | ~$5 | **+$14** |
+| Studio | $49 / mo | 25 / month | ~$10 | **+$39** |
 | Booster pack | $9 once | 10 (never expire) | ~$4 | **+$5** |
 | Mega pack | $29 once | 40 (never expire) | ~$16 | **+$13** |
 

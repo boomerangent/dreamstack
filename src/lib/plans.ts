@@ -37,10 +37,10 @@ export const PLANS: Plan[] = [
     name: "Builder",
     price: "$19",
     priceNote: "/ month",
-    gensPerMonth: 20,
+    gensPerMonth: 12,
     blurb: "For people shipping ideas every week.",
     features: [
-      "20 credits / month",
+      "12 credits / month",
       "Private apps (share only when ready)",
       "Version history — restore any build",
       "Embed your apps on any website",
@@ -53,10 +53,10 @@ export const PLANS: Plan[] = [
     name: "Studio",
     price: "$49",
     priceNote: "/ month",
-    gensPerMonth: 50,
+    gensPerMonth: 25,
     blurb: "For power users, agencies and teams.",
     features: [
-      "50 credits / month",
+      "25 credits / month",
       "Everything in Builder",
       "White-label — hide the Dreamstack badge",
       "Password-protected links + custom domain",
@@ -68,8 +68,8 @@ export const PLANS: Plan[] = [
 
 export const PLAN_LIMITS: Record<string, number> = {
   free: 3,
-  pro: 20,
-  studio: 50,
+  pro: 12,
+  studio: 25,
 };
 
 export interface CreditPack {
