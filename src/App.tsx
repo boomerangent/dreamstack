@@ -24,10 +24,9 @@ export function Logo({ size = 22 }: { size?: number }) {
             <stop offset="1" stopColor="#fb7185" />
           </linearGradient>
         </defs>
-        <path
-          fill="url(#lg)"
-          d="M50 4 L60 40 L96 50 L60 60 L50 96 L40 60 L4 50 L40 40 Z"
-        />
+        <path fill="url(#lg)" opacity="0.38" d="M50 53 L83 66 L50 79 L17 66 Z" />
+        <path fill="url(#lg)" opacity="0.66" d="M50 37 L83 50 L50 63 L17 50 Z" />
+        <path fill="url(#lg)" d="M50 21 L83 34 L50 47 L17 34 Z" />
       </svg>
       Dreamstack
     </span>

@@ -9,6 +9,17 @@ import { DEMO_APPS } from "../lib/demoApps";
 import { PLANS, PLAN_LIMITS } from "../lib/plans";
 import { startCheckout } from "../lib/api";
 
+// Tidy up raw prompt-style titles for the featured strip on the homepage,
+// e.g. "Build me a website where…" → "Website where…". Display-only.
+function prettyTitle(t: string): string {
+  const s = t
+    .replace(/^\s*(build|make|create|design|generate)\s+me\s+(a|an|the)\s+/i, "")
+    .replace(/^\s*(build|make|create|design|generate)\s+(a|an|the)\s+/i, "")
+    .replace(/^\s*(a|an|the)\s+/i, "")
+    .trim();
+  return s ? s.charAt(0).toUpperCase() + s.slice(1) : t;
+}
+
 const STEPS = [
   {
     n: "01",
@@ -196,7 +207,7 @@ export default function Landing({ session }: { session: Session | null }) {
                     </div>
                     <div className="p-4 border-t border-line">
                       <div className="font-medium text-sm mb-1 truncate">
-                        {a.title}
+                        {prettyTitle(a.title)}
                       </div>
                       {a.prompt && (
                         <p className="text-xs text-white/45 font-mono leading-relaxed line-clamp-2">
